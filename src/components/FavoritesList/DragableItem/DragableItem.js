@@ -63,7 +63,11 @@ export const DragableItem = ({render, item, list, updateList, onDragEnterList}) 
             updateList(newList);
         } else{
             let position = item.position;
-            let { position: oldPosition } = list.find(item => item.isPlaceToDrop);
+            const oldItemToDrop = list.find(item => item.isPlaceToDrop);
+            if(!oldItemToDrop){
+                return;
+            }
+            let { position: oldPosition } = oldItemToDrop;
             let bufList = position <= oldPosition 
                 ? [
                     ...list.slice(0, position-1),
