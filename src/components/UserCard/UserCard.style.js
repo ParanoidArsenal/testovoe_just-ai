@@ -4,7 +4,7 @@ export const styles = ((theme) => ({
     wrap: {
         width: '100%',
     },
-    card: {
+    root: {
         width: '100%',
         borderRadius: '8px',
         boxSizing: 'border-box',

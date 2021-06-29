@@ -11,7 +11,7 @@ export const loadList = (dispatch) => {
     dispatch(setLoading(true));
     axios({
         method: 'get',
-        url: `https://randomuser.me/api/?results=300`,
+        url: `https://randomuser.me/api/?results=200`,
       })
     .then((response) => {
         dispatch({

@@ -5,7 +5,6 @@ import { updateFavorites, updateDragAndDrop } from '../../globalState/actions/gl
 export const DragAndDrop = ({render, ...data}) => {
     const { state, dispatch } = useContext(GlobalContext);
     const onDragStart = (event) => {
-        console.log(data);
         dispatch(updateDragAndDrop(data));
     };
     const onDrop = (event) => {

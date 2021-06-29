@@ -31,21 +31,19 @@ export const FavoritesList = () => {
 
     const newListToRender = updateListToRender(state.favoritesList, placeToDrop.showCount, placeToDrop.position);
 
-    const onDragEnter = (event, place) => {
+    const onDragEnter = (event) => {
         event.preventDefault();
         // if(!placeToDrop || !placeToDrop.showCount){
             const { showCount } = placeToDrop;
-            console.log('onDragEnter', place, showCount, event.target);
             setPlaceToDrop({showCount:showCount + 1});
         // }
     }
 
-    const onDragLeave = (event, place) => {
+    const onDragLeave = (event) => {
         event.preventDefault();
         if(placeToDrop && placeToDrop.showCount){
             const { showCount } = placeToDrop;
             setPlaceToDrop({showCount:showCount - 1});
-            console.log('onDragLeave', place, showCount, event.target);
         }
     };
 
@@ -74,9 +72,9 @@ export const FavoritesList = () => {
             <Box
                 boxShadow={3}
                 className={classes.list}
-                onDragEnter={(e)=>onDragEnter(e, 'main box')}
+                onDragEnter={onDragEnter}
                 onDragOver={e => { e.preventDefault()}}
-                onDragLeave={(e)=>onDragLeave(e, 'main box')}
+                onDragLeave={onDragLeave}
                 onDrop={onDrop}>
                 <List component="nav" style={{['pointer-events']: 'none'}}>
                     {
@@ -91,7 +89,7 @@ export const FavoritesList = () => {
                                     dataPosition={item.position}
                                     removeable
                                     remove={()=> handleRemove(item)}
-                                    onDragEnter={(e)=>onDragEnter(e, 'sdasdasdas')}
+                                    onDragEnter={onDragEnter}
                                     onDragOver={e => { e.preventDefault()}}
                                     />
                             :

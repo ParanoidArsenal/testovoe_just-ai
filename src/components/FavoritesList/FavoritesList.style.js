@@ -17,6 +17,7 @@ export const useStyles = makeStyles((theme) => ({
         borderRadius: 8,
         height: '100%',
         overflowY: 'auto',
+        boxSizing: 'border-box',
     },
     wrap: {
         marginRight: 5,
@@ -28,5 +29,7 @@ export const useStyles = makeStyles((theme) => ({
         justifyContent: 'flex-start',
         alignItems: 'center',
         height: '100%',
+        minHeight: '116px',
+        boxSizing: 'border-box',
     },
 }));

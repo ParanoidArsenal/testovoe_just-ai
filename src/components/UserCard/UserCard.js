@@ -26,7 +26,7 @@ class PureUserCard extends React.PureComponent {
         const { classes } = props;
         return(
             <Box boxShadow={3} className={classes.wrap} style={{['pointer-events']: 'all'}} {...props}>
-                <Card className={classes.card}>
+                <Card className={classes.root}>
                     <CardMedia
                         className={classes.cover}
                         image={image}
@@ -56,34 +56,3 @@ class PureUserCard extends React.PureComponent {
 }
 
 export const UserCard = withStyles(styles)(PureUserCard)
-
-// export const UserCardOld = ({image, date = '', fullName = '', mail = '', removeable = false, remove, ...props}) => {
-//     const classes = useStyles();
-//     return (
-//         <Box boxShadow={3} style={{['pointer-events']: 'all'}} {...props}>
-//             <Card className={classes.card}>
-//                 <CardMedia
-//                     className={classes.cover}
-//                     image={image}
-//                     title="User photo"
-//                 />
-//                 <CardContent className={classes.content}>
-//                     <Typography variant="body2">
-//                         {fullName}
-//                         {`, дата регистрации: ${getFormatedDate(date)}`}
-//                     </Typography>
-//                     <Typography variant="body2">
-//                         {mail}
-//                     </Typography>
-//                 </CardContent>
-//                 {removeable &&
-//                     <CardActions className={classes.actionBlock}>
-//                         <IconButton onClick={remove} className={classes.iconButton}> 
-//                             <DeleteIcon fontSize="inherit"/>
-//                         </IconButton>
-//                     </CardActions>
-//                 }
-//             </Card>
-//         </Box>
-//     );
-// };

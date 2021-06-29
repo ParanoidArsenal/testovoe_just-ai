@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext,useRef  } from 'react';
 import { GlobalProvider, GlobalContext} from '../../globalState/globalState';
 import { loadList } from '../../globalState/actions/globalActions';
 import List from '@material-ui/core/List';
@@ -15,10 +15,6 @@ export const getUserGroups = (users = []) => {
         return [];
     }
     let userGroups = [];
-    // const userGroupsCount = Math.ceil(users.length/10);
-    // for (let i = 0; i < userGroupsCount; i++) {
-    //     userGroups.push(users.slice(i*10, i*10+10));
-    // }
     users.forEach(user =>{
         const groupNumber = Math.floor(user.registered.age/10);
         if(userGroups[groupNumber]){
@@ -35,19 +31,21 @@ export const UserList = ({filter = ""}) => {
     const { state, dispatch } = useContext(GlobalContext);
     const [userGroups, setUserGroups] = useState([]);
     useEffect(()=>(
-        // loadList(dispatch)
         setUserGroups(getUserGroups(state.list))
     ), [state.list]);
-    // const userGroups = getUserGroups(state.list);
+
     return (
-        <Box boxShadow={3} className={classes.list}>
-            <List component="nav">            
+        <Box boxShadow={3} className={classes.list} >
+            {/* <List component="nav">             */}
                 {
                     userGroups.map((userGroup=[], i) => (
-                        <UserGroup filter={filter} usersInGroup={userGroup} title={`${i*10+1}-${i*10+10}`}/>
+                        <UserGroup
+                            filter={filter}
+                            usersInGroup={userGroup} 
+                            title={`${i*10+1}-${i*10+10}`}/>
                     ))
                 }
-            </List>
+            {/* </List> */}
         </Box>
     );
 };
