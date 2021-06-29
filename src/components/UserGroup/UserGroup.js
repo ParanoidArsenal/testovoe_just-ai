@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext, useMemo } from 'react';
-// import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Collapse from '@material-ui/core/Collapse';
@@ -38,7 +37,7 @@ export const UserGroup = ({usersInGroup=[], title = "", filter = "", containerHe
             fullName= {usersToRender[index].fullName}
             mail={usersToRender[index].mail}
             render={props => (
-            <ListItem {...props} key={key} className={classes.listIten} style={style}>
+            <ListItem {...props} key={key} className={classes.listIten} style={{...style, padding: '0'}}>
                 <UserCard
                     image={usersToRender[index].image}
                     date={usersToRender[index].date}
@@ -81,7 +80,7 @@ export const UserGroup = ({usersInGroup=[], title = "", filter = "", containerHe
                             rowCount={usersToRender.length}
                             rowHeight={116}
                             rowRenderer={renderRow}
-                            width={350}
+                            width={368}
                             overscanRowCount={3}
                             measureAllRows
                             estimatedRowSize={464}

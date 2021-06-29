@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 export const styles = ((theme) => ({
     wrap: {
         width: '100%',
+        boxShadow: 'none',
     },
     root: {
         width: '100%',
