@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { DragAndDrop } from '../../DragAndDrop/DragAndDrop';
-import { GlobalProvider, GlobalContext} from '../../../globalState/globalState';
+import React, { useContext } from 'react';
+import { GlobalContext} from '../../../globalState/globalState';
 import { updateFavorites, updateDragAndDrop, removeFromFavorites } from '../../../globalState/actions/globalActions';
 
 export const DragableItem = ({render, item, list, updateList, onDragEnterList}) => {
@@ -79,7 +78,6 @@ export const DragableItem = ({render, item, list, updateList, onDragEnterList}) 
             bufList = position <= oldPosition 
             ? bufList.filter((listItem, i) => !(listItem.isPlaceToDrop && i != position-1))
             : bufList.filter((listItem, i) => !(listItem.isPlaceToDrop && i != position))
-            // bufList = bufList.filter((listItem, i) => !(listItem.isPlaceToDrop && i != position-1));
             const newList = bufList.map((item, i) => ({...item, position: i + 1}))
             updateList(newList);
         }

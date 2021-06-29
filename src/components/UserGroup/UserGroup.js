@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useContext, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import { UserCard } from '../UserCard/UserCard';
@@ -87,15 +86,6 @@ export const UserGroup = ({usersInGroup=[], title = "", filter = "", containerHe
                         />
                 )}
             </AutoSizer>
-                {/* <List component="nav">
-                    {
-                        usersToRender.map(user => (
-                            <>
-                                {user}
-                            </>
-                        ))
-                    }
-                </List> */}
             </div>
         </>
     );
