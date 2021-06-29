@@ -37,7 +37,7 @@ export const UserGroup = ({usersInGroup=[], title = "", filter = "", containerHe
             fullName= {usersToRender[index].fullName}
             mail={usersToRender[index].mail}
             render={props => (
-            <ListItem {...props} key={key} className={classes.listIten} style={{...style, padding: '0'}}>
+            <ListItem {...props} key={key} className={classes.listIten} style={{...style, padding: '0', cursor: 'grab'}}>
                 <UserCard
                     image={usersToRender[index].image}
                     date={usersToRender[index].date}
