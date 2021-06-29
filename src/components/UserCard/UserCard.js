@@ -22,10 +22,22 @@ const getFormatedDate = (dateString) => {
 
 class PureUserCard extends React.PureComponent {
     render(){
-        const {image, date = '', fullName = '', mail = '', removeable = false, remove, ...props} = this.props;
+        const {
+            image,
+            date = '',
+            fullName = '',
+            mail = '',
+            removeable = false,
+            remove,
+            isDropArea = false,
+            ...props } = this.props;
         const { classes } = props;
         return(
-            <Box boxShadow={3} className={classes.wrap} style={{['pointer-events']: 'all'}} {...props}>
+            <Box
+                boxShadow={3}
+                className={`${classes.wrap} ${isDropArea?classes.dropArea:''}`}
+                style={{['pointer-events']: 'all'}}
+                {...props}>
                 <Card className={classes.root}>
                     <CardMedia
                         className={classes.cover}

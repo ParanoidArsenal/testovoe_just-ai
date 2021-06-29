@@ -57,5 +57,28 @@ export const styles = ((theme) => ({
             opacity: '0.5',
         }
     },
+    dropArea: {
+        color: 'white !important',
+        background: 'white !important',
+        position: 'relative',
+        opacity:'0.5',
+        "&:before": {
+            content: "'Установить здесь'",
+            color: theme.palette.primary.dark,
+            borderRadius: '8px',
+            fontSize: '1rem',
+            textTransform: 'uppercase',
+            width: '100%',
+            borderRadius: '8px',
+            position: 'absolute',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: theme.palette.primary.light,
+            border: `2px dashed ${theme.palette.primary.main}`,
+            height: '100px',
+            zIndex:'1000',
+           }
+    }
     
 }));

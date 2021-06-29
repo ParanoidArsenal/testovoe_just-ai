@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import { Typography } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import { useStyles } from './FavoritesList.style';
@@ -11,6 +11,7 @@ import { GlobalProvider, GlobalContext} from '../../globalState/globalState';
 import { UserGroup } from '../UserGroup/UserGroup';
 import { PlaceToDrop } from './PlaceToDrop/PlaceToDrop';
 import { updateFavorites, addToFavorites, removeFromFavorites } from '../../globalState/actions/globalActions';
+import { DragableItem } from './DragableItem/DragableItem';
 
 const updateListToRender = (list=[], showPlaceToDrop=false, positionToDrop=0) => {
     if(!showPlaceToDrop){
@@ -28,32 +29,76 @@ export const FavoritesList = () => {
     const { state, dispatch } = useContext(GlobalContext);
     const [placeToDrop, setPlaceToDrop] = useState({showCount: 0});
     const [listToRender, setListToRender] = useState(state.favoritesList);
+    const draggedItem = useRef({showCount: 0, showAreaToDrop: false});
 
-    const newListToRender = updateListToRender(state.favoritesList, placeToDrop.showCount, placeToDrop.position);
+    // useEffect(() => {
+    //     const newListToRender = updateListToRender(state.favoritesList, placeToDrop.showCount, placeToDrop.position);
+    //     setListToRender(newListToRender);
+    // }, [state.favoritesList, placeToDrop.showCount, placeToDrop.position]);
+
+    useEffect(() => {
+        const {showcount, showAreaToDrop} = draggedItem.current;
+        if(!showcount && showAreaToDrop){
+            // const newListToRender = listToRender.filter(item => !item.isPlaceToDrop);
+            // setListToRender(newListToRender);
+            setListToRender(state.favoritesList);
+            draggedItem.current.showAreaToDrop = false;
+        } 
+    }, [draggedItem.current.showcount, state.favoritesList]);
+
+    useEffect(() => {
+        setListToRender(state.favoritesList);
+    }, [state.favoritesList]);
+
+    // const newListToRender = updateListToRender(state.favoritesList, placeToDrop.showCount, placeToDrop.position);
 
     const onDragEnter = (event) => {
         event.preventDefault();
         // if(!placeToDrop || !placeToDrop.showCount){
-            const { showCount } = placeToDrop;
-            setPlaceToDrop({showCount:showCount + 1});
+        if(!state.dragAndDrop.isListItemDragged ){
+            // const { showCount } = placeToDrop;
+            const { showCount, showAreaToDrop} = draggedItem.current;
+            draggedItem.current.showcount = showCount + 1;
+            if(!showAreaToDrop){
+                setListToRender([...listToRender, {isPlaceToDrop: true, position: listToRender.length+1}])
+                // dispatch(updateDragAndDrop({...state.dragAndDrop, placeToDropPosition: listToRender.length+1}));
+                draggedItem.current.showAreaToDrop = true;
+            }
+            // setPlaceToDrop({showCount:showCount + 1});
+        }
         // }
     }
 
     const onDragLeave = (event) => {
         event.preventDefault();
-        if(placeToDrop && placeToDrop.showCount){
-            const { showCount } = placeToDrop;
-            setPlaceToDrop({showCount:showCount - 1});
+        // if(placeToDrop && placeToDrop.showCount){
+            // const { showCount } = placeToDrop;
+            // setPlaceToDrop({showCount:showCount - 1});
+    
+        if(!state.dragAndDrop.isListItemDragged && draggedItem.current.showcount){
+            draggedItem.current.showcount = draggedItem.current.showcount - 1;
         }
     };
 
     const onDrop = (event) => {
-        if(placeToDrop && placeToDrop.showCount){
-            setPlaceToDrop({showCount:0});
-        }
-        const dragAndDrop = state.dragAndDrop;
-        if(!state.favoritesList.find(user => user.mail === dragAndDrop.mail)){
-            dispatch(addToFavorites(dragAndDrop));
+        if(!state.dragAndDrop.isListItemDragged){
+            // if(placeToDrop && placeToDrop.showCount){
+                // setPlaceToDrop({showCount:0});
+            draggedItem.current.showcount = 0;
+            const dragAndDrop = state.dragAndDrop;
+            if(!state.favoritesList.find(user => user.mail === dragAndDrop.mail)){
+                const newFavoritesList = listToRender.map(item => {
+                    if(!item.isPlaceToDrop){
+                        const {isPlaceToDrop, ...itemData} = item;
+                        return itemData;
+                    } else {
+                        const { position } = item;
+                        return { position, ...dragAndDrop };
+                    }
+                });
+                dispatch(updateFavorites(newFavoritesList));
+                // dispatch(addToFavorites(dragAndDrop, position));
+            }
         }
         event.preventDefault();
     };
@@ -78,22 +123,28 @@ export const FavoritesList = () => {
                 onDrop={onDrop}>
                 <List component="nav" style={{['pointer-events']: 'none'}}>
                     {
-                        newListToRender.map(item => (
-                            !item.isPlaceToDrop
-                            ? 
-                                <UserCard
-                                    image={item.image}
-                                    date={item.date}
-                                    fullName= {item.fullName}
-                                    mail={item.mail}
-                                    dataPosition={item.position}
-                                    removeable
-                                    remove={()=> handleRemove(item)}
-                                    onDragEnter={onDragEnter}
-                                    onDragOver={e => { e.preventDefault()}}
-                                    />
-                            :
-                            <PlaceToDrop dataPosition={item.position}/>
+                        listToRender.map(item => (
+                            // !item.isPlaceToDrop
+                            // ?
+                                <DragableItem
+                                    item={item}
+                                    list={listToRender}
+                                    updateList={setListToRender}
+                                    onDragEnterList={onDragEnter}
+                                    render={props => (
+                                    <UserCard
+                                        image={item.image}
+                                        date={item.date}
+                                        fullName= {item.fullName}
+                                        mail={item.mail}
+                                        dataPosition={item.position}
+                                        removeable
+                                        remove={()=> handleRemove(item)}
+                                        isDropArea={item.isPlaceToDrop}
+                                        {...props}
+                                        />)}/>
+                            // :
+                            // <PlaceToDrop dataPosition={item.position}/>
                         ))
                     } 
                 </List>

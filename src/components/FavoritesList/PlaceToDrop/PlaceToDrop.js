@@ -6,7 +6,7 @@ import Box from '@material-ui/core/Box';
 export const PlaceToDrop = () => {
     const classes = useStyles();
     return (
-        <Box boxShadow={3} className={classes.wrap} style={{['pointer-events']: 'none'}}>
+        <Box boxShadow={3} className={classes.wrap}>
             <Typography variant="h6" style={{['pointer-events']: 'none'}}>
                 Добавить в избранное
             </Typography>

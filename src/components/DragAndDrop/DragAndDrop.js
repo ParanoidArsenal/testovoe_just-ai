@@ -7,7 +7,7 @@ export const DragAndDrop = ({render, ...data}) => {
     const onDragStart = (event) => {
         dispatch(updateDragAndDrop(data));
     };
-    const onDrop = (event) => {
+    const onDragEnd = (event) => {
         dispatch(updateDragAndDrop(null));
     };
     const onDragOver = (event) => {
@@ -15,6 +15,6 @@ export const DragAndDrop = ({render, ...data}) => {
     };
     const draggable = true;
     return (
-        render({onDragStart, onDrop, onDragOver, draggable})
+        render({onDragStart, onDragEnd, onDragOver, draggable})
     );
 };
